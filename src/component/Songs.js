@@ -3,14 +3,16 @@ import { Link } from 'react-router-dom';
 import Navbar from './Navbar'
 import { BiSearch } from "react-icons/bi";
 import axios from "axios";
-
+import { useSelector, useDispatch } from "react-redux";
 
 
 
 const Songs = () => {
-  const[song,setSong]=useState([]);
+  const Reducer = useSelector((store) => store);
+  const dispatch = useDispatch();
+  const[songs,setSongs]=useState([]);
   const[search,setSearch]=useState("all")
-  console.log(search)
+  // console.log(search)
  
   useEffect(()=>{
    axios({
@@ -22,7 +24,7 @@ const Songs = () => {
       'X-RapidAPI-Host': 'deezerdevs-deezer.p.rapidapi.com'
     }
   }).then(function (response) {
-    setSong(response.data.data);
+    setSongs(response.data.data);
     console.log(response.data.data);
   }).catch(function (error) {
     console.log(error)
@@ -42,10 +44,11 @@ const Songs = () => {
 
       <div className='d-flex flex-wrap ms-4'>
       {
-        song && song.map((item)=>{
+        songs && songs.map((item)=>{
+          // console.log(item)
           return(
-            <div key={item.id} className='p-2'>
-              <Link to='/song'><img className='' src={item.album.cover_medium}></img></Link>
+            <div key={item.id} className='p-2' onClick={() => dispatch({ type: "SHOW", payload:item})}>
+              <Link to= {`/song/${item.id}`}><img className='' src={item.album.cover_medium}></img></Link>
             </div>
           )
         })
