@@ -2,10 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import { combineReducers } from "redux";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
-import { Reducer } from './Reducer';
-const store = createStore(Reducer);
+import  Reducer from './Reducer';
+const store = createStore(
+Reducer
+);
 // console.log(Reducer)
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

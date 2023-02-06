@@ -9,11 +9,11 @@ function App() {
    <div >
       <BrowserRouter>
       <Routes>
-        <Route path='/' element={<AboutAPP />} />
-        <Route path='/songs' element={<Songs />} />
-        <Route path='/song/:id' element={<Song />} />
-        <Route path='/album/:id' element={<Album />} />
-        <Route path='/about/:id' element={<AboutSinger />} />
+      <Route path='/' element={<Songs />} />
+      <Route path='/About' element={<AboutAPP />} />
+      <Route path='/song/:id' element={<Song />} />
+      <Route path='/album/:id' element={<Album />} />
+      <Route path='/about/:id' element={<AboutSinger />} />
       </Routes>
     </BrowserRouter>
    </div>

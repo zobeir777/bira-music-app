@@ -1,4 +1,4 @@
-export const Reducer = (song =[], action) => {
+ const Reducer = (song =[], action) => {
   // console.log(song)
   if (action.type === "SHOW") {
     let tempsong = song.filter((item) => item.id === action.payload.id);
@@ -8,3 +8,5 @@ export const Reducer = (song =[], action) => {
     return tempsong 
   }
 }
+
+export default Reducer
