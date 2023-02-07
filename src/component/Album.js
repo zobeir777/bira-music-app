@@ -2,10 +2,11 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import axios from "axios";
-import { useSelector, useDispatch } from 'react-redux';
+import NotFound from './NotFound';
 const Album = () => {
   const { id } = useParams();
-  const item = useSelector((store) => store);
+  const item = JSON.parse(localStorage.getItem("song"))
+  console.log(item)
   const [album, setAlbum] = useState([])
   useEffect(() => {
     axios(
@@ -29,12 +30,16 @@ const Album = () => {
   console.log(album)
 
   return (
-    <div className='container d-flex w-100 align-content-center ms-5'>
-      <Link className='d-flex align-content-center' to={`/song/${item[0].id}`}>
+    <>
+        {
+          (id==item.id)?(
+            <>
+            <div className='container d-flex w-100 align-content-center ms-5'>
+      <Link className='d-flex align-content-center' to={`/song/${item.id}`}>
       <div className="d-flex justify-content-center align-content-center" >
         <div className=" mt-5 align-content-center w-75 pt-5  ms-3">
-          <h5 className="text-center text-decoration-none text-dark ">{item[0].title_short}</h5>
-          <img src={item[0].album.cover_big} className="img-fluid p-2 rounded-start " alt="..." />
+          <h5 className="text-center text-decoration-none text-dark ">{item.title_short}</h5>
+          <img src={item.album.cover_big} className="img-fluid p-2 rounded-start " alt="..." />
         </div>
       </div>
       </Link>
@@ -56,6 +61,10 @@ const Album = () => {
          }
      </div>
     </div>
+            </>
+          ):<NotFound/>
+        }
+    </>
   )
 }
 

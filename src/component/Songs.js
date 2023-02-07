@@ -19,6 +19,11 @@ const Songs = () => {
     setShow(e => setShow(!e))
     setSearch(e)
   }
+  // const handlesearch=(e)=>{
+   
+  //   setShow(false)
+
+  // }
 
 
   useEffect(() => {
@@ -36,6 +41,9 @@ const Songs = () => {
       setItems(response.data);
       console.log(response.data);
     }).catch(function (error) {
+      // if(statusbar=429){
+      //   console.log("jjjj")
+      // }
       console.log(error)
     });
 
@@ -52,7 +60,7 @@ const Songs = () => {
       }
     }).then(function (response) {
       setSongs(response.data.data);
-      console.log(response.data.data);
+      console.log(response.data.data)
     }).catch(function (error) {
       console.log(error)
     });
@@ -76,7 +84,7 @@ const Songs = () => {
             show ? items.map((item, index) => {
              
               return (
-                <div className='list-group-item' onClick={() => setSearch(item)} key={item[index]}>{item}</div>
+                <div className='list-group-item' onClick={()=>setShow(false)} key={item[index]}>{item}</div>
               )
             }) : null
           }

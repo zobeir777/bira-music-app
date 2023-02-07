@@ -10,8 +10,8 @@ const Navbar = () => {
     const data = JSON.parse(localStorage.getItem("favsong"))
     if (data) setFav(data)
   }, [])
-  const handleOpen = () => {
-    setOpen(!open);
+  const handleOpen = (e) => {
+    setOpen(()=>!open);
   };
   const deleteSong = (num) => {
     const filter = fav.filter((element) => {
