@@ -9,7 +9,7 @@ const Navbar = () => {
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("favsong"))
     if (data) setFav(data)
-  }, [])
+  }, [fav])
   const handleOpen = (e) => {
     setOpen(()=>!open);
   };
@@ -34,7 +34,7 @@ const Navbar = () => {
         <div className='right-nav me-3 d-flex align-items-center '>
           <span className='text-white me-2 fs-3 mb-2 '><AiFillHeart onClick={handleOpen} style={{cursor:'pointer'}}></AiFillHeart> 
           </span>
-          <h5 className='text-white '>favorites</h5>
+          <h5 className='text-white 'onClick={handleOpen} style={{cursor:'pointer'}}>favorites</h5>
 
         </div>
 

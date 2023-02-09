@@ -14,8 +14,8 @@ const Songs = () => {
   const [songs, setSongs] = useState([]);
   const [search, setSearch] = useState("ava")
   const [items, setItems] = useState([])
-  const [result,setResult]= useState('')
-  const [show, setShow] = useState(false);
+  const [result, setResult] = useState('')
+ 
   console.log(search)
   const autocamplit = (searchtext) => {
     axios(
@@ -23,20 +23,20 @@ const Songs = () => {
         method: 'GET',
         url: 'http://localhost:3000/name.json',
         params: { text: `${searchtext}` },
-   
+
       }
     ).then(function (response) {
       setItems(response.data);
-   
+
     }).catch(function (error) {
-      
+
       console.log(error)
     })
 
     // setShow(e => setShow(!e))
-   
-    let matches = items.filter(item=>{
-      const regex = new RegExp(`^${searchtext}`,'gi');
+
+    let matches = items.filter(item => {
+      const regex = new RegExp(`^${searchtext}`, 'gi');
       return item.match(regex)
 
     })
@@ -44,29 +44,29 @@ const Songs = () => {
     const rmatch = matches;
     // if(){}
 
-  
-    if(searchtext.length > 2){
-      setResult(rmatch.slice(0,4))
-    }else{
+
+    if (searchtext.length > 2) {
+      setResult(rmatch.slice(0, 4))
+    } else {
       setResult([])
     }
-   
 
 
-    
+
+
   }
-  const go =(e)=>{
+  const go = (e) => {
     setSearch(e)
     setResult([])
-  
+
   }
- 
 
 
- 
+
+
 
   useEffect(() => {
-     axios({
+    axios({
       method: 'GET',
       url: 'https://deezerdevs-deezer.p.rapidapi.com/search',
       params: { q: `${search}` },
@@ -82,10 +82,10 @@ const Songs = () => {
     });
 
   }, [search])
-  const getInput=()=> {
+  const getInput = () => {
     var input = document.getElementById("input").value;
     setSearch(input);
-}
+  }
   return (
     <div className=''>
       <Navbar />
@@ -96,15 +96,15 @@ const Songs = () => {
               className="form-control bg-secondary fw-bold border-0 "
               placeholder="Search Name Of Artist , track" />
 
-            <BiSearch className='fs-3 me-3' style={{cursor:'pointer'}} onClick={getInput} />
+            <BiSearch className='fs-3 me-3' style={{ cursor: 'pointer' }} onClick={getInput} />
 
           </form>
           {
-              result && result.map((item) => {
+            result && result.map((item) => {
               console.log(result)
-             
+
               return (
-                <div className='list-group-item' style={{cursor:'pointer'}} onClick={(e)=>go(item)}  key={item}>{item}</div>
+                <div className='list-group-item' style={{ cursor: 'pointer' }} onClick={(e) => go(item)} key={item}>{item}</div>
               )
             })
           }
@@ -114,7 +114,7 @@ const Songs = () => {
       <div className='d-flex   flex-wrap ms-4'>
         {
           songs && songs.map((item) => {
-         
+
             return (
               <div key={item.id} className='p-2' onClick={() => dispatch({ type: "SHOW", payload: item })}>
                 <Link to={`/album/${item.id}`}><img className='' src={item.album.cover_medium}></img></Link>

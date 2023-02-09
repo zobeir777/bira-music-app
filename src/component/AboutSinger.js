@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react'
 import axios from "axios";
 import NotFound from './NotFound';
-
+import Navbar from './Navbar';
 import { Link, useParams } from "react-router-dom";
 const AboutSinger = () => {
     const { id } = useParams();
@@ -52,6 +52,7 @@ const AboutSinger = () => {
     console.log(album)
     return (
         <>
+        <Navbar />
            {
          (id == item.id) ? (
             <>

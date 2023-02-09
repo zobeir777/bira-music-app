@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import axios from "axios";
 import NotFound from './NotFound';
+import Navbar from './Navbar';
 const Album = () => {
   const { id } = useParams();
   const item = JSON.parse(localStorage.getItem("song"))
@@ -31,6 +32,7 @@ const Album = () => {
 
   return (
     <>
+    <Navbar />
         {
           (id==item.id)?(
             <>

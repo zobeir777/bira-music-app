@@ -3,17 +3,18 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react'
 import NotFound from './NotFound';
 import { useSelector, useDispatch } from 'react-redux';
-import { AiFillHeart } from "react-icons/ai";
+import { AiOutlineHeart,AiFillHeart } from "react-icons/ai";
 import Navbar from './Navbar';
 const Song = () => {
     const { id } = useParams();
     // const item = useSelector((store) => store);
     const data = JSON.parse(localStorage.getItem("song"))
     const [song, setSong] = useState([data])
-    const navigate = useNavigate()
+    const[heart,setHeart] =useState("")
+    console.log(heart)
+  
     const [favsongs, setFavsongs] = useState([])
-    console.log(song[0].id)
-    console.log(id)
+  
     // const route=()=>{
     //     if(id!==song.id){
     //        return navigate("*")
@@ -30,32 +31,51 @@ const Song = () => {
         if (tempcart.length < 1) {
             setFavsongs([...favsongs, song[0]]);
             localStorage.setItem('favsong', JSON.stringify([...favsongs, song[0]]))
+            setHeart(true)
+          
 
         } else {
-            alert(" داریمش ");
-            return
-
+            // alert(" داریمش ");
+            // return
+            const filter = favsongs.filter((element) => {
+                return element.id !== song[0].id;
+                
+            })
+            localStorage.setItem('favsong', JSON.stringify(filter))
+            // localStorage.setItem('heart', JSON.stringify(false))
+            setHeart(false)
         }
-        //   console.log(data)
-        console.log(favsongs)
+        
     }
 
-
+    
     useEffect(() => {
         const data = JSON.parse(localStorage.getItem("favsong"))
         if (data) setFavsongs(data);
-        console.log(data)
-    }, [])
+        heartFill()
+    }, [heart])
+    
+    const heartFill=(e)=>{
+        //  setHeart(()=>!heart)
+        const dataH = JSON.parse(localStorage.getItem("favsong"))
+    let heartItem = favsongs.filter((item) => item.id === song[0].id);
+    if(heartItem.length<1){
+        return setHeart(false)
+    }else{
+        return setHeart(true)
+    }
+    
+}
 
 
 
 
 
-console.log(song[0].album.cover)
 
 
     return (
         <>
+        <Navbar />
        
            {
             (id==song[0].id)?(
@@ -71,7 +91,7 @@ console.log(song[0].album.cover)
                                 <h5 className="card-title ">{song[0].title_short}</h5>
                                 <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                                 <audio src={song[0].preview} controls> </audio>
-                                <span className='text-danger me-2 fs-3 mb-2 '><AiFillHeart onClick={handleSubmit} />
+                                <span className=' me-2 fs-3 mb-2' >{heart?<AiFillHeart className='text-danger 'onClick={handleSubmit}/>:<AiOutlineHeart className='text-danger ' onClick={handleSubmit} />}
                                 </span>
                                 <a href={song[0].link}>Listen To Full Song</a>
                             </div>
