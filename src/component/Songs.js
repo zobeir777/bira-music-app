@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { Children, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import Navbar from './Navbar'
 import { BiSearch } from "react-icons/bi";
@@ -12,45 +12,61 @@ const Songs = () => {
 
   const dispatch = useDispatch();
   const [songs, setSongs] = useState([]);
-  const [search, setSearch] = useState("eminem")
+  const [search, setSearch] = useState("ava")
   const [items, setItems] = useState([])
+  const [result,setResult]= useState('')
   const [show, setShow] = useState(false);
-  const autocamplit = (e) => {
-    setShow(e => setShow(!e))
-    setSearch(e)
-  }
-  // const handlesearch=(e)=>{
-   
-  //   setShow(false)
-
-  // }
-
-
-  useEffect(() => {
+  console.log(search)
+  const autocamplit = (searchtext) => {
     axios(
       {
         method: 'GET',
-        url: 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/spelling/AutoComplete',
-        params: { text: `${search}` },
-        headers: {
-          'X-RapidAPI-Key': 'cfaea4ffc1msh0428988f3a53f6fp16e800jsnd3ee95260de1',
-          'X-RapidAPI-Host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
-        }
+        url: 'http://localhost:3000/name.json',
+        params: { text: `${searchtext}` },
+   
       }
     ).then(function (response) {
       setItems(response.data);
-      console.log(response.data);
+   
     }).catch(function (error) {
-      // if(statusbar=429){
-      //   console.log("jjjj")
-      // }
+      
       console.log(error)
-    });
+    })
 
-  }, [search])
+    // setShow(e => setShow(!e))
+   
+    let matches = items.filter(item=>{
+      const regex = new RegExp(`^${searchtext}`,'gi');
+      return item.match(regex)
+
+    })
+    console.log(matches)
+    const rmatch = matches;
+    // if(){}
+
+  
+    if(searchtext.length > 2){
+      setResult(rmatch.slice(0,4))
+    }else{
+      setResult([])
+    }
+   
+
+
+    
+  }
+  const go =(e)=>{
+    setSearch(e)
+    setResult([])
+  
+  }
+ 
+
+
+ 
 
   useEffect(() => {
-    axios({
+     axios({
       method: 'GET',
       url: 'https://deezerdevs-deezer.p.rapidapi.com/search',
       params: { q: `${search}` },
@@ -65,28 +81,32 @@ const Songs = () => {
       console.log(error)
     });
 
-
   }, [search])
+  const getInput=()=> {
+    var input = document.getElementById("input").value;
+    setSearch(input);
+}
   return (
     <div className=''>
       <Navbar />
       <div className="d-flex justify-content-center  mb-5">
         <div className='w-75   '>
           <form className='form opacity-75  p-3 d-flex  mt-5 bg-secondary   w-75 text-black fw-bold  rounded-pill '>
-            <input type="text" onChange={(e) => autocamplit((e.target.value))}
+            <input type="text" id='input' onChange={(e) => autocamplit(e.target.value)}
               className="form-control bg-secondary fw-bold border-0 "
               placeholder="Search Name Of Artist , track" />
 
-            <BiSearch className='fs-3 me-3' />
+            <BiSearch className='fs-3 me-3' style={{cursor:'pointer'}} onClick={getInput} />
 
           </form>
           {
-            show ? items.map((item, index) => {
+              result && result.map((item) => {
+              console.log(result)
              
               return (
-                <div className='list-group-item' onClick={()=>setShow(false)} key={item[index]}>{item}</div>
+                <div className='list-group-item' style={{cursor:'pointer'}} onClick={(e)=>go(item)}  key={item}>{item}</div>
               )
-            }) : null
+            })
           }
 
         </div>

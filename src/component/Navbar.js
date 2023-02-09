@@ -32,7 +32,7 @@ const Navbar = () => {
           <Link to={"/About"} className='text-decoration-none'> <h6 className='text-light ms-3 '>about</h6></Link>
         </div>
         <div className='right-nav me-3 d-flex align-items-center '>
-          <span className='text-white me-2 fs-3 mb-2 '><AiFillHeart onClick={handleOpen} className=' ' />
+          <span className='text-white me-2 fs-3 mb-2 '><AiFillHeart onClick={handleOpen} style={{cursor:'pointer'}}></AiFillHeart> 
           </span>
           <h5 className='text-white '>favorites</h5>
 
